@@ -1,0 +1,30 @@
+version: '3'
+services:
+  sqlserver:
+    image: microsoft/mssql-server-linux:latest
+    container_name: sqlserver
+    volumes:
+      - sqlserverdata:/var/opt/mssql 
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y 
+      - MSSQL_PID=Developer
+      - SA_PASSWORD=P@ssword123
+  bankingwebapi:
+    build:
+      context:  ./bankingwebapi
+      dockerfile: Dockerfile
+    expose:
+      - "5000"
+  proxy:
+    build:
+      context:  ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    links:
+      - bankingwebapi
+volumes:
+  sqlserverdata:
+    external: true    

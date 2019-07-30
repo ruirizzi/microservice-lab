@@ -1,0 +1,10 @@
+CREATE TABLE [Entry]
+(
+    [Id] BIGINT PRIMARY KEY IDENTITY,
+    [Type] INT NOT NULL,
+    [TransactionId] VARCHAR(MAX) NOT NULL,
+    [AccountId] BIGINT FOREIGN KEY REFERENCES BankAccount(Id) NOT NULL,
+    [CounterPartId] BIGINT FOREIGN KEY REFERENCES BankAccount(Id) NOT NULL,
+    [Amount] DECIMAL(18,2) NOT NULL,
+    [OccurenceDate] DATETIME NOT NULL DEFAULT(GETDATE())
+)
